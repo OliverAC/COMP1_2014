@@ -77,6 +77,9 @@ def DisplayMenu():
 
 def GetMenuChoice():
   Choice = input()
+  Choice = Choice.upper()
+  if Choice == "QUIT":
+    Choice = "Q"
   print()
   return Choice
 
@@ -92,6 +95,7 @@ def LoadDeck(Deck):
     LineFromFile = CurrentFile.readline()
     Deck[Count].Rank = int(LineFromFile)
     Count = Count + 1
+
  
 def ShuffleDeck(Deck):
   SwapSpace = TCard()
@@ -128,7 +132,13 @@ def IsNextCardHigher(LastCard, NextCard):
 
 def GetPlayerName():
   print()
+  Valid = False
   PlayerName = input('Please enter your name: ')
+  while not Valid:
+    if len(PlayerName)> 0:
+      Valid = True
+    else:
+      Valid = False
   print()
   return PlayerName
 
@@ -224,7 +234,7 @@ if __name__ == '__main__':
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     RecentScores.append(TRecentScore())
   Choice = ''
-  while Choice != 'q':
+  while Choice != "Q":
     DisplayMenu()
     Choice = GetMenuChoice()
     if Choice == '1':
