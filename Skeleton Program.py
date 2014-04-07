@@ -151,7 +151,7 @@ def GetChoiceFromUser():
     Choice = "Y"
   elif Choice in NoList:
     Choice = "N"
-  return Choice
+  return Choice, YesList
 
 def DisplayEndOfGameMessage(Score):
   print()
@@ -183,22 +183,27 @@ def DisplayRecentScores(RecentScores):
   input()
   print()
 
-def UpdateRecentScores(RecentScores, Score):
-  PlayerName = GetPlayerName()
-  FoundSpace = False
-  Count = 1
-  while (not FoundSpace) and (Count <= NO_OF_RECENT_SCORES):
-    if RecentScores[Count].Name == '':
-      FoundSpace = True
-    else:
-      Count = Count + 1
-  if not FoundSpace:
-    for Count in range(1, NO_OF_RECENT_SCORES):
-      RecentScores[Count].Name = RecentScores[Count + 1].Name
-      RecentScores[Count].Score = RecentScores[Count + 1].Score
-    Count = NO_OF_RECENT_SCORES
-  RecentScores[Count].Name = PlayerName
-  RecentScores[Count].Score = Score
+def UpdateRecentScores(RecentScores, Score, YesList):
+  AddTOList = input("Would you like to add your score to the recent score list? ")
+  if AddTOList in YesList:
+    PlayerName = GetPlayerName()
+    FoundSpace = False
+    Count = 1
+    while (not FoundSpace) and (Count <= NO_OF_RECENT_SCORES):
+      if RecentScores[Count].Name == '':
+        FoundSpace = True
+      else:
+        Count = Count + 1
+    if not FoundSpace:
+      for Count in range(1, NO_OF_RECENT_SCORES):
+        RecentScores[Count].Name = RecentScores[Count + 1].Name
+        RecentScores[Count].Score = RecentScores[Count + 1].Score
+      Count = NO_OF_RECENT_SCORES
+    RecentScores[Count].Name = PlayerName
+    RecentScores[Count].Score = Score
+  else:
+    print("Good Game.")
+    print()
 
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
@@ -211,7 +216,7 @@ def PlayGame(Deck, RecentScores):
     GetCard(NextCard, Deck, NoOfCardsTurnedOver)
     Choice = ''
     while Choice != "Y" and Choice != "N":
-      Choice = GetChoiceFromUser()
+      Choice, YesList = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
     Higher = IsNextCardHigher(LastCard, NextCard)
@@ -223,10 +228,10 @@ def PlayGame(Deck, RecentScores):
       GameOver = True
   if GameOver:
     DisplayEndOfGameMessage(NoOfCardsTurnedOver - 2)
-    UpdateRecentScores(RecentScores, NoOfCardsTurnedOver - 2)
+    UpdateRecentScores(RecentScores, NoOfCardsTurnedOver - 2, YesList)
   else:
     DisplayEndOfGameMessage(51)
-    UpdateRecentScores(RecentScores, 51)
+    UpdateRecentScores(RecentScores, 51, YesList)
 
 if __name__ == '__main__':
   for Count in range(1, 53):
