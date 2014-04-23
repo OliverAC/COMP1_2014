@@ -68,6 +68,7 @@ def DisplayMenu():
   print('2. Play game (without shuffle)')
   print('3. Display recent scores')
   print('4. Reset recent scores')
+  print("5. Options")
   print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
@@ -203,7 +204,7 @@ def UpdateRecentScores(RecentScores, Score):
     RecentScores[Count].Score = Score
     RecentScores[Count].Date = date.today()
 
-def PlayGame(Deck, RecentScores):
+def PlayGame(Deck, RecentScores, AceHigh):
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
@@ -231,6 +232,23 @@ def PlayGame(Deck, RecentScores):
     DisplayEndOfGameMessage(51)
     UpdateRecentScores(RecentScores, 51)
 
+def OptionsMenu():
+  print()
+  print("Options Menu")
+  print()
+  Valid = False
+  while not Valid
+    HighOrLow = input("Would You Like Ace's to be HIGH or LOW?").upper()
+    if HighOrLow == "H":
+      AceHigh = True
+      Valid = True
+    if HighOrLow == "L":
+      Valid = False
+      AceHigh = False
+    else:
+      print("Would You Like Ace's to be (H)IGH or (L)OW?").upper()
+  return AceHigh
+
 if __name__ == '__main__':
   for Count in range(1, 53):
     Deck.append(TCard())
@@ -243,11 +261,13 @@ if __name__ == '__main__':
     if Choice == '1':
       LoadDeck(Deck)
       ShuffleDeck(Deck)
-      PlayGame(Deck, RecentScores)
+      PlayGame(Deck, RecentScores, AceHigh)
     elif Choice == '2':
       LoadDeck(Deck)
-      PlayGame(Deck, RecentScores)
+      PlayGame(Deck, RecentScores, AceHigh)
     elif Choice == '3':
       DisplayRecentScores(RecentScores)
-    else:
+    elif Choice == '4':
       ResetRecentScores(RecentScores)
+    elif Choice == '5':
+      AceHigh = OptionsMenu()
