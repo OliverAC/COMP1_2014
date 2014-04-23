@@ -168,7 +168,7 @@ def DisplayRecentScores(RecentScores):
     if RecentScores[Count].Date != None:
       ScoreDate = RecentScores[Count].Date.strftime("%d/%m/%Y")
     else:
-      ScoreDate = "N/A"
+      ScoreDate = "X"
     print("{0:<12}{1:<10}{2:<5}".format(ScoreDate,RecentScores[Count].Name,RecentScores[Count].Score))
   print()
   print('Press the Enter key to return to the main menu')
