@@ -20,32 +20,60 @@ Choice = ''
 
 def GetRank(RankNo):
   Rank = ''
-  if RankNo == 1:
-    Rank = 'Ace'
-  elif RankNo == 2:
-    Rank = 'Two'
-  elif RankNo == 3:
-    Rank = 'Three'
-  elif RankNo == 4:
-    Rank = 'Four'
-  elif RankNo == 5:
-    Rank = 'Five'
-  elif RankNo == 6:
-    Rank = 'Six'
-  elif RankNo == 7:
-    Rank = 'Seven'
-  elif RankNo == 8:
-    Rank = 'Eight'
-  elif RankNo == 9:
-    Rank = 'Nine'
-  elif RankNo == 10:
-    Rank = 'Ten'
-  elif RankNo == 11:
-    Rank = 'Jack'
-  elif RankNo == 12:
-    Rank = 'Queen'
+  if not AceHigh:
+    if RankNo == 1:
+      Rank = 'Ace'
+    elif RankNo == 2:
+      Rank = 'Two'
+    elif RankNo == 3:
+      Rank = 'Three'
+    elif RankNo == 4:
+      Rank = 'Four'
+    elif RankNo == 5:
+      Rank = 'Five'
+    elif RankNo == 6:
+      Rank = 'Six'
+    elif RankNo == 7:
+      Rank = 'Seven'
+    elif RankNo == 8:
+      Rank = 'Eight'
+    elif RankNo == 9:
+      Rank = 'Nine'
+    elif RankNo == 10:
+      Rank = 'Ten'
+    elif RankNo == 11:
+      Rank = 'Jack'
+    elif RankNo == 12:
+      Rank = 'Queen'
+    else:
+      Rank = 'King'
   else:
-    Rank = 'King'
+    if RankNo == 1:
+      Rank = 'Two'
+    elif RankNo == 2:
+      Rank = 'Three'
+    elif RankNo == 3:
+      Rank = 'Four'
+    elif RankNo == 4:
+      Rank = 'Five'
+    elif RankNo == 5:
+      Rank = 'Six'
+    elif RankNo == 6:
+      Rank = 'Seven'
+    elif RankNo == 7:
+      Rank = 'Eight'
+    elif RankNo == 8:
+      Rank = 'Nine'
+    elif RankNo == 9:
+      Rank = "Ten"
+    elif RankNo == 10:
+      Rank = 'Jack'
+    elif RankNo == 11:
+      Rank = 'Queen'
+    elif RankNo == 12:
+      Rank = 'King'
+    else:
+      Rank = 'Ace'
   return Rank
 
 def GetSuit(SuitNo):
@@ -237,13 +265,13 @@ def OptionsMenu():
   print("Options Menu")
   print()
   Valid = False
-  while not Valid
+  while not Valid:
     HighOrLow = input("Would You Like Ace's to be HIGH or LOW?").upper()
     if HighOrLow == "H":
       AceHigh = True
       Valid = True
-    if HighOrLow == "L":
-      Valid = False
+    elif HighOrLow == "L":
+      Valid = True
       AceHigh = False
     else:
       print("Would You Like Ace's to be (H)IGH or (L)OW?").upper()
