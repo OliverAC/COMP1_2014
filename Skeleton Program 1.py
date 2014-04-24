@@ -2,6 +2,7 @@ import random
 from datetime import date
 
 NO_OF_RECENT_SCORES = 3
+AceHigh = False
 
 class TCard():
   def __init__(self):
@@ -20,8 +21,7 @@ Choice = ''
 
 def GetRank(RankNo):
   Rank = ''
-  if not AceHigh:
-    if RankNo == 1:
+    if RankNo == 1 and not AceHigh:
       Rank = 'Ace'
     elif RankNo == 2:
       Rank = 'Two'
@@ -45,35 +45,10 @@ def GetRank(RankNo):
       Rank = 'Jack'
     elif RankNo == 12:
       Rank = 'Queen'
-    else:
-      Rank = 'King'
-  else:
-    if RankNo == 1:
-      Rank = 'Two'
-    elif RankNo == 2:
-      Rank = 'Three'
-    elif RankNo == 3:
-      Rank = 'Four'
-    elif RankNo == 4:
-      Rank = 'Five'
-    elif RankNo == 5:
-      Rank = 'Six'
-    elif RankNo == 6:
-      Rank = 'Seven'
-    elif RankNo == 7:
-      Rank = 'Eight'
-    elif RankNo == 8:
-      Rank = 'Nine'
-    elif RankNo == 9:
-      Rank = "Ten"
-    elif RankNo == 10:
-      Rank = 'Jack'
-    elif RankNo == 11:
-      Rank = 'Queen'
-    elif RankNo == 12:
+    elif RankNo == 13:
       Rank = 'King'
     else:
-      Rank = 'Ace'
+      Rank = "Ace"
   return Rank
 
 def GetSuit(SuitNo):
@@ -138,6 +113,7 @@ def DisplayCard(ThisCard):
 
 def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
   ThisCard.Rank = Deck[1].Rank
+  print(Deck[1].Rank)
   ThisCard.Suit = Deck[1].Suit
   for Count in range(1, 52 - NoOfCardsTurnedOver):
     Deck[Count].Rank = Deck[Count + 1].Rank
@@ -197,7 +173,7 @@ def DisplayRecentScores(RecentScores):
     if RecentScores[Count].Date != None:
       ScoreDate = RecentScores[Count].Date.strftime("%d/%m/%Y")
     else:
-      ScoreDate = "X"
+      ScoreDate = ""
     print("{0:<12}{1:<10}{2:<5}".format(ScoreDate,RecentScores[Count].Name,RecentScores[Count].Score))
   print()
   print('Press the Enter key to return to the main menu')
@@ -264,6 +240,15 @@ def OptionsMenu():
   print()
   print("Options Menu")
   print()
+  print("1.Make Ace High Or Low...")
+  Option = int(input("Your Choice Please:  "))
+  return Option
+  
+def GetOptionChoice(Option):
+  if Option == 1:
+    SetAceHighOrLow()
+
+def SetAceHighOrLow():
   Valid = False
   while not Valid:
     HighOrLow = input("Would You Like Ace's to be HIGH or LOW?").upper()
@@ -275,8 +260,8 @@ def OptionsMenu():
       AceHigh = False
     else:
       print("Would You Like Ace's to be (H)IGH or (L)OW?").upper()
-  return AceHigh
-
+  global AceHigh
+  
 if __name__ == '__main__':
   for Count in range(1, 53):
     Deck.append(TCard())
@@ -298,4 +283,5 @@ if __name__ == '__main__':
     elif Choice == '4':
       ResetRecentScores(RecentScores)
     elif Choice == '5':
-      AceHigh = OptionsMenu()
+      Option = OptionsMenu()
+      GetOptionChoice(Option)
