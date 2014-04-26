@@ -21,33 +21,33 @@ Choice = ''
 
 def GetRank(RankNo):
   Rank = ''
-    if RankNo == 1 and not AceHigh:
+  if RankNo == 1 and not AceHigh:
       Rank = 'Ace'
-    elif RankNo == 2:
+  elif RankNo == 2:
       Rank = 'Two'
-    elif RankNo == 3:
+  elif RankNo == 3:
       Rank = 'Three'
-    elif RankNo == 4:
+  elif RankNo == 4:
       Rank = 'Four'
-    elif RankNo == 5:
+  elif RankNo == 5:
       Rank = 'Five'
-    elif RankNo == 6:
+  elif RankNo == 6:
       Rank = 'Six'
-    elif RankNo == 7:
+  elif RankNo == 7:
       Rank = 'Seven'
-    elif RankNo == 8:
+  elif RankNo == 8:
       Rank = 'Eight'
-    elif RankNo == 9:
+  elif RankNo == 9:
       Rank = 'Nine'
-    elif RankNo == 10:
+  elif RankNo == 10:
       Rank = 'Ten'
-    elif RankNo == 11:
+  elif RankNo == 11:
       Rank = 'Jack'
-    elif RankNo == 12:
+  elif RankNo == 12:
       Rank = 'Queen'
-    elif RankNo == 13:
+  elif RankNo == 13:
       Rank = 'King'
-    else:
+  else:
       Rank = "Ace"
   return Rank
 
@@ -113,6 +113,8 @@ def DisplayCard(ThisCard):
 
 def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
   ThisCard.Rank = Deck[1].Rank
+  if ThisCard.Rank == 1 and AceHigh:
+    ThisCard.Rank = 14
   print(Deck[1].Rank)
   ThisCard.Suit = Deck[1].Suit
   for Count in range(1, 52 - NoOfCardsTurnedOver):
