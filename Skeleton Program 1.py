@@ -238,6 +238,19 @@ def PlayGame(Deck, RecentScores, AceHigh):
     DisplayEndOfGameMessage(51)
     UpdateRecentScores(RecentScores, 51)
 
+def BubbleSortScores(RecentScores):
+  Swapped = True
+  list_length = len(RecentScores)
+  while Swapped:
+    Swapped = False
+    for Count in range(1,list_length+1):
+       if RecentScores[Count].Score > RecentScores[Count+1].Score:
+              Temporary = RecentScores[Count]
+              RecentScores[Count] = RecentScores[Count+1]
+              RecentScores[Count+1] = Temporary
+              Swapped = True
+  return RecentScores
+
 def OptionsMenu():
   print()
   print("Options Menu")
@@ -281,6 +294,7 @@ if __name__ == '__main__':
       LoadDeck(Deck)
       PlayGame(Deck, RecentScores, AceHigh)
     elif Choice == '3':
+      RecentScores = BubbleSortScores(RecentScores)
       DisplayRecentScores(RecentScores)
     elif Choice == '4':
       ResetRecentScores(RecentScores)
