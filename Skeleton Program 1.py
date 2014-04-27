@@ -239,18 +239,17 @@ def PlayGame(Deck, RecentScores, AceHigh):
     UpdateRecentScores(RecentScores, 51)
 
 def BubbleSortScores(RecentScores):
-  Swapped = True
-  list_length = len(RecentScores)
-  while Swapped:
-    Swapped = False
-    for Count in range(1,list_length+1):
-       if RecentScores[Count].Score > RecentScores[Count+1].Score:
-              Temporary = RecentScores[Count]
-              RecentScores[Count] = RecentScores[Count+1]
-              RecentScores[Count+1] = Temporary
-              Swapped = True
+  swap = True
+  while swap:
+     swap = False
+     for count in range(1,len(RecentScores)-1):
+         if RecentScores[count].Score < RecentScores[count+1].Score:
+           swap = True
+           temp = RecentScores[count]
+           RecentScores[count] = RecentScores[count+1]
+           RecentScores[count+1] = temp
   return RecentScores
-
+ 
 def OptionsMenu():
   print()
   print("Options Menu")
