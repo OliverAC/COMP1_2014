@@ -1,4 +1,4 @@
-import random
+import random, pickle
 from datetime import date
 
 NO_OF_RECENT_SCORES = 3
@@ -72,6 +72,7 @@ def DisplayMenu():
   print('3. Display recent scores')
   print('4. Reset recent scores')
   print("5. Options")
+  print("6. Save Scores ")
   print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
@@ -275,12 +276,22 @@ def SetAceHighOrLow():
     else:
       print("Would You Like Ace's to be (H)IGH or (L)OW?").upper()
   global AceHigh
+
+def SaveHighScores(RecentScores):
+  with open("HighScores.txt", mode = "a", encoding = "utf-8") as my_file:
+    pickle.dump(RecentScores, my_file)
+
+def LoadScores():
+  with open("HighScores.txt", mode = "r",) as my_file:
+    for lines in my_file:
+        RecentScores = my_file.read()
   
 if __name__ == '__main__':
   for Count in range(1, 53):
     Deck.append(TCard())
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     RecentScores.append(TRecentScore())
+  LoadScores()
   Choice = ''
   while Choice != 'q':
     DisplayMenu()
@@ -300,3 +311,5 @@ if __name__ == '__main__':
     elif Choice == '5':
       Option = OptionsMenu()
       GetOptionChoice(Option)
+    elif Choice == "6":
+      SaveHighScores(RecentScores)
