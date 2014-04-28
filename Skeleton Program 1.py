@@ -239,6 +239,7 @@ def PlayGame(Deck, RecentScores, AceHigh):
     DisplayEndOfGameMessage(51)
     UpdateRecentScores(RecentScores, 51)
 
+
 def BubbleSortScores(RecentScores):
   swap = True
   while swap:
@@ -286,6 +287,7 @@ def LoadScores():
   try:
    with open("HighScores.dat", mode="rb") as my_file:
        RecentScores = pickle.load(my_file)
+       return RecentScores
   except IOError:
     pass
         
@@ -294,7 +296,7 @@ if __name__ == '__main__':
     Deck.append(TCard())
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     RecentScores.append(TRecentScore())
-  LoadScores()
+  RecentScores = LoadScores()
   Choice = ''
   while Choice != 'q':
     DisplayMenu()
