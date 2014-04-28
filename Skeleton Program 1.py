@@ -277,15 +277,18 @@ def SetAceHighOrLow():
       print("Would You Like Ace's to be (H)IGH or (L)OW?").upper()
   global AceHigh
 
-def SaveHighScores(RecentScores):
-  with open("HighScores.txt", mode = "a", encoding = "utf-8") as my_file:
-    pickle.dump(RecentScores, my_file)
 
+def SaveHighScores(RecentScores):
+   with open("HighScores.dat", mode="wb") as my_file:
+     pickle.dump(RecentScores, my_file)
+ 
 def LoadScores():
-  with open("HighScores.txt", mode = "r",) as my_file:
-    for lines in my_file:
-        RecentScores = my_file.read()
-  
+  try:
+   with open("HighScores.dat", mode="rb") as my_file:
+       RecentScores = pickle.load(my_file)
+  except IOError:
+    pass
+        
 if __name__ == '__main__':
   for Count in range(1, 53):
     Deck.append(TCard())
