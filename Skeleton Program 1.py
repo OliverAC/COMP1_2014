@@ -1,7 +1,8 @@
 import random, pickle
 from datetime import date
 
-NO_OF_RECENT_SCORES = 3
+NO_OF_RECENT_SCORES = 10
+
 AceHigh = False
 
 class TCard():
@@ -74,6 +75,7 @@ def DisplayMenu():
   print("5. Options")
   print("6. Save Scores ")
   print()
+  
   print('Select an option from the menu (or enter q to quit): ', end='')
 
 def GetMenuChoice():
@@ -196,12 +198,13 @@ def UpdateRecentScores(RecentScores, Score):
   if Choice == "y":
     PlayerName = GetPlayerName()
     FoundSpace = False
-    Count = 1
+    Count = 0
     while (not FoundSpace) and (Count <= NO_OF_RECENT_SCORES):
+      Count += 1
       if RecentScores[Count].Name == '':
         FoundSpace = True
       else:
-        Count = Count + 1
+        Count += 1
     if not FoundSpace:
       for Count in range(1, NO_OF_RECENT_SCORES):
         RecentScores[Count].Name = RecentScores[Count + 1].Name
@@ -294,9 +297,9 @@ def LoadScores():
 if __name__ == '__main__':
   for Count in range(1, 53):
     Deck.append(TCard())
+  RecentScores = LoadScores()
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     RecentScores.append(TRecentScore())
-  RecentScores = LoadScores()
   Choice = ''
   while Choice != 'q':
     DisplayMenu()
