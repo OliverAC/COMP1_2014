@@ -3,6 +3,7 @@ from datetime import date
 
 NO_OF_RECENT_SCORES = 10
 
+SameCard = False
 AceHigh = False
 
 class TCard():
@@ -128,7 +129,7 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
 
 def IsNextCardHigher(LastCard, NextCard):
   Higher = False
-  if NextCard.Rank > LastCard.Rank:
+  if (NextCard.Rank > LastCard.Rank):
     Higher = True
   return Higher
 
@@ -229,7 +230,7 @@ def PlayGame(Deck, RecentScores, AceHigh):
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
     Higher = IsNextCardHigher(LastCard, NextCard)
-    if (Higher and Choice == 'y') or (not Higher and Choice == 'n'):
+    if (Higher and Choice == 'y') or (not Higher and Choice == 'n') or (NextCard.Rank == LastCard.Rank and SameCard):
       DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
       LastCard.Rank = NextCard.Rank
       LastCard.Suit = NextCard.Suit
@@ -259,14 +260,31 @@ def OptionsMenu():
   print()
   print("Options Menu")
   print()
-  print("1.Make Ace High Or Low...")
+  print("1. Make Ace High Or Low...")
+  print("2. Same Value Cards...")
   Option = int(input("Your Choice Please:  "))
   return Option
   
 def GetOptionChoice(Option):
   if Option == 1:
     SetAceHighOrLow()
+  if Option == 2:
+    SameCardOptions()
 
+def SameCardOptions():
+  Valid = False
+  while not Valid:
+    ExceptDuplicates = input("Would you like duplicates to end the game(Y/N)?  " ).upper()
+    if ExceptDuplicates == "N":
+      SameCard = True
+      Valid = True
+    elif ExceptDuplicates == "Y":
+      SameCard = False
+      Valid = True
+    else:
+      print("Invalid Input! ")
+  global SameCard
+  
 def SetAceHighOrLow():
   Valid = False
   while not Valid:
