@@ -146,8 +146,8 @@ def GetPlayerName():
   return PlayerName
 
 def GetChoiceFromUser():
-  Choice = input('Do you think the next card will be higher than the last card (enter y or n)? ')
-  return Choice.lower()[0]
+  Choice = input('Do you think the next card will be higher than the last card (enter y or n)? ').lower()
+  return Choice
 
 def DisplayEndOfGameMessage(Score):
   print()
@@ -215,6 +215,14 @@ def UpdateRecentScores(RecentScores, Score):
     RecentScores[Count].Score = Score
     RecentScores[Count].Date = date.today()
 
+def SaveDuringGame(LastCard, NextCard, NoOfCardsTurnedOver, Deck):
+  with open("deck.dat", mode = "wb") as MyFile:
+    pickle.dump(Deck, MyFile)
+    pickle.dump(LastCard, MyFile)
+    pickle.dump(NextCard, MyFile)
+    pickle.dump(NoOfCardsTurnedOver, MyFile)
+  print("Game Saves.")
+
 def PlayGame(Deck, RecentScores, AceHigh):
   LastCard = TCard()
   NextCard = TCard()
@@ -225,7 +233,7 @@ def PlayGame(Deck, RecentScores, AceHigh):
   while (NoOfCardsTurnedOver < 52) and (not GameOver):
     GetCard(NextCard, Deck, NoOfCardsTurnedOver)
     Choice = ''
-    while (Choice != 'y') and (Choice != 'n'):
+    while (Choice != 'y') and (Choice != 'n') and (Choice != "s"):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
@@ -234,6 +242,8 @@ def PlayGame(Deck, RecentScores, AceHigh):
       DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
       LastCard.Rank = NextCard.Rank
       LastCard.Suit = NextCard.Suit
+    elif Choice == "s":
+      SaveDuringGame(LastCard, NextCard, NoOfCardsTurnedOver, Deck)
     else:
       GameOver = True
   if GameOver:
