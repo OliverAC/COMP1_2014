@@ -1,4 +1,4 @@
-import random, pickle
+import random, pickle, os
 from datetime import date
 
 NO_OF_RECENT_SCORES = 10
@@ -214,22 +214,58 @@ def UpdateRecentScores(RecentScores, Score):
     RecentScores[Count].Name = PlayerName
     RecentScores[Count].Score = Score
     RecentScores[Count].Date = date.today()
+    
 
 def SaveDuringGame(LastCard, NextCard, NoOfCardsTurnedOver, Deck):
-  with open("deck.dat", mode = "wb") as MyFile:
-    pickle.dump(Deck, MyFile)
-    pickle.dump(LastCard, MyFile)
-    pickle.dump(NextCard, MyFile)
-    pickle.dump(NoOfCardsTurnedOver, MyFile)
+  
+  with open("deck.txt", mode = "w", encoding = "utf-8") as MyFile:
+    for count in range(1,53):
+      MyFile.write(str(Deck[count])+"\n")
+    MyFile.write(str(LastCard.Suit) + "\n")
+    MyFile.write(str(LastCard.Rank) + "\n")
+    MyFile.write(str(NextCard.Suit) + "\n")
+    MyFile.write(str(NextCard.Rank) + "\n")
+    MyFile.write(str(NoOfCardsTurnedOver) + "\n")
   print("Game Saves.")
 
+def GameAvailibleToLoad():
+  CWD = os.getcwd
+  FilesInCWD = os.listdir()
+  if "deck.dat" in FilesInCWD:
+    AvailibleFile = True
+  else:
+    AvailibleFile = False
+  return AvailibleFile
+
+def LoadSavedGame():
+  with open("deck.dat", mode = "rb") as MyFile:
+    ItemsInFile = pickle.load(MyFile)
+    Deck = ItemsInFile[0]
+    LastCard  = ItemsInFile[1]
+    NextCard = ItemsInFile[2]
+    NoOfCardsTurnedOver = ItemsInFile[3]
+    return Deck, LastCard, NextCard, NoOfCardsTurnedOver
+
+
+
 def PlayGame(Deck, RecentScores, AceHigh):
+  Valid = "False"
+  NoOfCardsTurnedOver = 1
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
   GetCard(LastCard, Deck, 0)
-  DisplayCard(LastCard)
-  NoOfCardsTurnedOver = 1
+  while not Valid:
+    if AvailibleFile:
+      YesOrNo = input("There is a Saved File, Would you like to load it?").upper()
+      if YesOrNo == "Y":
+        Deck, LastCard, NextCard, NoOfCardsTurnedOver = LoadSavedGame()
+        Valid = True
+        DisplayCard(LastCard)
+      else:
+          DisplayCard(LastCard)
+  else:
+      DisplayCard(LastCard)
   while (NoOfCardsTurnedOver < 52) and (not GameOver):
     GetCard(NextCard, Deck, NoOfCardsTurnedOver)
     Choice = ''
@@ -246,12 +282,12 @@ def PlayGame(Deck, RecentScores, AceHigh):
       SaveDuringGame(LastCard, NextCard, NoOfCardsTurnedOver, Deck)
     else:
       GameOver = True
-  if GameOver:
-    DisplayEndOfGameMessage(NoOfCardsTurnedOver - 2)
-    UpdateRecentScores(RecentScores, NoOfCardsTurnedOver - 2)
-  else:
-    DisplayEndOfGameMessage(51)
-    UpdateRecentScores(RecentScores, 51)
+      if GameOver:
+          DisplayEndOfGameMessage(NoOfCardsTurnedOver - 2)
+          UpdateRecentScores(RecentScores, NoOfCardsTurnedOver - 2)
+      else:
+        DisplayEndOfGameMessage(51)
+        UpdateRecentScores(RecentScores, 51)
 
 
 def BubbleSortScores(RecentScores):
